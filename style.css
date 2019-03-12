@@ -1,0 +1,74 @@
+
+
+.row::after{
+    content: "";
+    clear: both;
+    display: block;
+}
+
+
+.jumbotron {
+  
+  background-image: url("brain_image_1.jpg");
+  background-size: cover; 
+ 
+  width: 100%;
+}
+
+.header h1, h2{
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    font-weight: 700;
+    
+   
+}
+
+.landing h2 {
+    text-align: center;
+    color: rgb(64, 226, 126);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+ }
+
+ .landing {
+    margin-left: 20px;
+ }
+
+ section{
+     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+     font-size: 24px;
+     font-style: oblique;
+     color: rgb(148, 134, 4);
+ }
+
+ .app  section{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 24px;
+    font-style: italic;
+    color: white;
+}
+#selectedImage{
+ 
+    width: 200px;
+    height: 150px;
+   margin-left: 100px;
+
+}
+#myBar{
+    background-color: rgb(247, 38, 38);
+}
+#myBar2{
+    background-color: rgb(50, 216, 50);
+}
+.col-1 {width: 8.33%}
+.col-2 {width: 16.66%}
+.col-3 {width: 25%}
+.col-4 {width: 33.33%}
+.col-5 {width: 41.66%}
+.col-6 {width: 50%}
+.col-7 {width: 58.33%}
+.col-8 {width: 66.66%}
+.col-9 {width: 75%}
+.col-10 {width: 83.33%}
+.col-11 {width: 91.66%}
+.col-12 {width: 100%}

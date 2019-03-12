@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Convolutional Neural Network</title>
+</head>
+<body>
+
+<div class="">
+  <div class="row">
+        <div class="col-12 header">   
+           <div class="jumbotron">
+           <h1>Machine Learning Application for medical imaging</h1>
+           
+          </div>          
+    </div>
+</div>
+<div class="row">
+
+<div class=" landing col-4">
+
+<div class="">
+        <!-- <h2 class="">Welcome, thanks for landing here!</h2> -->
+        <div class="">
+        <section>
+           <span style="color: rgb(243, 10, 10); font-family: Verdana, Geneva, Tahoma, sans-serif; font-style: normal ">Welcome beautiful people! </span>  
+           <br>
+            In this page we will try out something cool. We will try to diagnoise a patient from a chest xray image.
+            <br>
+            <br>
+            we will explore the power of machine learning in medical images by predicting if a patinet with an x-ray chest image has pneumonia or not! </section> 
+        </div>
+</div>
+
+</div>
+<div class="col-7 app">
+
+        <div class="card border-info mb-3" >
+                <div class="card-header bg-info border-success"> <section>Try different chest x-ray images</section></div>
+                <div class="card-body bg-default text-dark">
+
+                        <label class="btn btn-primary btn-lg btn-file">
+                                Upload Image <input type="file" id="getImage" style="display: none;">
+                         </label>                   
+                         <img id="selectedImage"  src="" alt="X-ray Image">
+                        
+        
+                        <p>PNEUMONIA: <span id="normPred"></span></p>
+                        <div class="progress">
+                                <div id="myBar" class="progress-bar progress-bar-success" role="progressbar"></div>
+                           
+                              </div>
+                        <p>NORMAL: <span id="pneuPred"></span></p>
+                        <div class="progress" style="margin-bottom: 20px">
+                                <div id="myBar2" class="progress-bar progress-bar-warning" role="progressbar" ></div>
+                           
+                        </div>
+                       
+                        <button type="button" class="btn btn-dark btn-lg" id="predButton" style=" background-color: goldenrod">Predict</button>
+                        
+                        <!-- <p id="greeting" style="font-family: 'Courier New', Courier, monospace; font-size: 26px"> </p> -->
+                        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+                       
+                       <script>
+                        console.log('getting down to biz...')
+                        let base64Image;
+                    
+                    
+                        $("#getImage").change(function(){
+                            let reader = new FileReader();
+                    
+                            reader.onload = function(e){
+                                let dataURL = reader.result;
+                                $('#selectedImage').attr("src", dataURL);
+                                base64Image = dataURL.replace("data:image/jpeg;base64,","");
+                                console.log(base64Image);
+                            }
+                            reader.readAsDataURL($("#getImage")[0].files[0]);
+                            $("#normPred").text(" ");
+                            $("#pneuPred").text(" ");
+                    
+                        });
+                    
+                        $("#predButton").click(function(event){
+                            let message = {
+                                image: base64Image
+                            }
+                            //console.log(message)
+                            $.post("http://35.246.193.66:5000/predict", JSON.stringify(message), function(response){
+                              
+                                $("#normPred").text(parseFloat(response.prediction.NORMAL).toFixed(6));
+                                $("#pneuPred").text(1-parseFloat(response.prediction.PNEUMONIA).toFixed(6));
+                               
+                                console.log(response.prediction);
+                            });
+                           
+                           move(myBar, 75);
+                           move(myBar2, 50);
+
+                        });
+                    
+                    // function for the progress bar
+
+                    
+                    function move(elem, val){
+
+                    var bar = document.getElementById("elem");
+                    var width = 1;
+                    var id = setInterval(frame, 30);
+
+                    function frame (){
+
+                        if (width >= val){
+                            clearInterval(id);
+                        }
+                        else {
+                            width++;
+                            elem.style.width = width + '%';
+                        }
+
+                    }
+                    }
+                        
+                        </script>
+                </div>
+                <div class="card-footer bg-info border-success"><section>Result: </section> </div>
+              </div>
+        
+        </div>
+</div>
+
+  </div>
+</div>
+</body>
+</html>
